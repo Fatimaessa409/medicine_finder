@@ -1,17 +1,13 @@
 const express = require("express");
-
-const {
-  signup,
-  login,
-  savePharmacy,
-  getSavedPharmacies,
-  removeSavedPharmacy
-} = require("../controllers/userController");
-
 const router = express.Router();
-router.post("/signup", signup);
-router.post("/login", login);
-router.post("/savePharmacy", savePharmacy);
-router.get("/savedPharmacies", getSavedPharmacies);
-router.delete("/removePharmacy", removeSavedPharmacy);
+
+const userController =require("../controllers/userController");
+
+router.post("/signup", userController.signup);
+router.post("/login", userController.login);
+router.post("/savePharmacy", userController.savePharmacy);
+router.get("/savedPharmacies", userController.getSavedPharmacies);
+router.delete("/removePharmacy", userController.removeSavedPharmacy);
+
 module.exports = router;
+

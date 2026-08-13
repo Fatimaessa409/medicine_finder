@@ -211,6 +211,3 @@ exports.removeSavedPharmacy = async (req, res) => {
 
   }
 };
-hhhhhhh
-
-uuuu
