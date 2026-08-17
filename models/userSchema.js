@@ -56,6 +56,8 @@ const userSchema = new Schema({
     required: true,
     trim: true,
     minLength: 8,
+    //    select: false, // never returned by default - use .select("+password") in login
+
   },
   passwordConfirm: {
     type: String,
@@ -68,21 +70,22 @@ const userSchema = new Schema({
 
   role: {
     type: String,
-    enum: ['admin', 'pharmacy', 'customer'],
+    //enum: ['admin', 'pharmacy', 'customer'],
+      enum: ['admin','customer'],
     default: 'customer',
   },
 
 
-  pharmacy: {
-    type: Schema.Types.ObjectId,
-    ref: "pharmacy",
-    default: null,
-  },
+  // pharmacy: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "pharmacy",
+  //   default: null,
+  // },
 
-  savedPharmacies:{
+  savedMedicines:[{
     type: Schema.Types.ObjectId,
-    ref: "pharmacy",
-  },
+    ref: "medicine",
+  }],
 
 
   isActive: {
@@ -97,7 +100,7 @@ const userSchema = new Schema({
 
 userSchema.pre("save", async function (next) {
   try {
-    if (!this.isModified("password")) {//if the password field is not modified
+    if (!this.isModified("password")) {
       return next();
 
     }
