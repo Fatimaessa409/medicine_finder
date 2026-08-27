@@ -56,6 +56,7 @@ const userSchema = new Schema({
     required: true,
     trim: true,
     minLength: 8,
+    select:false,
     //    select: false, // never returned by default - use .select("+password") in login
 
   },
@@ -71,8 +72,8 @@ const userSchema = new Schema({
   role: {
     type: String,
     //enum: ['admin', 'pharmacy', 'customer'],
-      enum: ['admin','customer'],
-    default: 'customer',
+      enum: ['admin'],
+    default: 'admin',
   },
 
 

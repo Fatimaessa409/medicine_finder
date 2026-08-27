@@ -29,6 +29,9 @@ exports.createPharmacy = async (req, res) => {
     if (!req.body["password"]) {
       return res.status(400).json({ message: "Password is required" });
     }
+     if (password.length < 8) {
+      return res.status(400).json({ message: "Password must be at least 8 characters"});
+    }
 
     const existing = await Pharmacy.findOne({ email: req.body["email"] });
     if (existing) {
@@ -62,6 +65,7 @@ exports.createPharmacy = async (req, res) => {
 };
 
 
+
 exports.getAllPharmacies = async (req, res) => {
   try {
     const pharmacies = await Pharmacy.find();
@@ -81,13 +85,14 @@ exports.getAllPharmacies = async (req, res) => {
 };
 
 
+
 exports.activatePharmacy = async (req, res) => {
   try {
     const pharmacy = await Pharmacy.findByIdAndUpdate(
       req.params["id"],
       { isActive: true },
       { new: true }
-    );
+    ).select("-password");
     if (!pharmacy) {
       return res.status(404).json({ message: "Pharmacy not found" });
     }
@@ -101,13 +106,14 @@ exports.activatePharmacy = async (req, res) => {
   }
 };
 
+
 exports.deactivatePharmacy = async (req, res) => {
   try {
     const pharmacy = await Pharmacy.findByIdAndUpdate(
       req.params["id"],
       { isActive: false },
       { new: true }
-    );
+    ).select("-password");
     if (!pharmacy) {
       return res.status(404).json({ message: "Pharmacy not found" });
     }
@@ -166,3 +172,4 @@ exports.getDashboard = async (req, res) => {
 
   }
 };
+

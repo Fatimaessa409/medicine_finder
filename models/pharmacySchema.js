@@ -36,14 +36,14 @@ const pharmacySchema = new Schema({
   passwordChangedAt: Date,
 
 
-  ownerFirstname: {
+  ownerFirstName: {
     type: String,
     trim: true,
     required: [true, "FirstName is required"],
     maxLength:50,
   },
 
-  ownerLastname: {
+  ownerLastName: {
     type: String,
     trim: true,
     required: [true, "LastName  is required"],

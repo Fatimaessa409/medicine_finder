@@ -2,8 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 
-// Global medicine CATALOG - one entry shared by every pharmacy that stocks it.
-// Price and stock per pharmacy live in inventorySchema, not here.
 const medicineSchema = new Schema({
   name: {
     type: String,
@@ -40,19 +38,10 @@ const medicineSchema = new Schema({
     default: false,
   },
 
-  // catalog entries can be added by either an admin (User) or a pharmacy -
-  // refPath makes this a polymorphic reference resolved by createdByModel
-  createdByModel: {
-    type: String,
-    enum: ["User", "pharmacy"],
-    required: [true, "createdByModel is required"],
-
-  },
-
   createdBy: {
     type: Schema.Types.ObjectId,
-    required: [true, "createdBy is required"],
-    refPath: "createdByModel",
+    required: [true, "cretor required"],
+    ref: "pharmacy",
 
   },
 

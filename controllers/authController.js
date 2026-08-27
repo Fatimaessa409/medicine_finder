@@ -1,56 +1,8 @@
 const User = require("../models/userSchema");
 const validator = require("validator");
+const generateToken = require("../utils/generateToken");
 
-exports.signup = async (req, res) => {
-  try {
-    if (!validator.isEmail(req.body["Email"])) {
-      return res.status(400).json({ message: "Invalid email address" });
-    }
 
-    const checkUserExistence = await User.findOne({ 
-      Email: req.body["Email"] 
-      });
-    if (checkUserExistence) {
-      return res.status(409).json({ message: "User already exists" });
-    }
-
-    if (req.body["password"] !== req.body["passwordConfirm"]) {
-      return res.status(400).json({
-        message: "Please enter matching password and password confirm",
-      });
-    }
-
-    const newUser = await User.create({
-      firstName: req.body["firstName"],
-      lastName: req.body["lastName"],
-      username: req.body["username"],
-      Email: req.body["Email"],
-      phonenumber: req.body["phonenumber"],
-      password: req.body["password"],
-      passwordConfirm: req.body["passwordConfirm"],
-      passwordChangedAt: Date.now(),
-    });
-
-    return res.status(201).json({
-      message: "Signup successfully",
-      user: {
-        _id: newUser["_id"],
-        firstName: newUser["firstName"],
-        lastName: newUser["lastName"],
-        username: newUser["username"],
-        Email: newUser["Email"],
-        role: newUser["role"],
-      },
-    });
-  } catch (err) {
-    console.log(err);
-    if (err.code === 11000) {
-      const field = Object.keys(err.keyValue)[0];
-      return res.status(409).json({ message: `${field} is already taken` });
-    }
-    res.status(500).json({ message: err.message });
-  }
-};
 
 exports.login = async (req, res) => {
   try {
